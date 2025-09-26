@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-dumbbell me-2"></i>运动装备商城
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products"><i class="fas fa-box me-1"></i>商品中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories"><i class="fas fa-tags me-1"></i>分类</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart me-1"></i>购物车</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>用户中心
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/user/profile"><i class="fas fa-user-circle me-2"></i>个人中心</a></li>
+                            <li><a class="dropdown-item" href="/user/orders"><i class="fas fa-shopping-bag me-2"></i>我的订单</a></li>
+                            <li><a class="dropdown-item" href="/user/favorites"><i class="fas fa-heart me-2"></i>我的收藏</a></li>
+                            <li><a class="dropdown-item" href="/user/address"><i class="fas fa-map-marker-alt me-2"></i>收货地址</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/change-password"><i class="fas fa-key me-2"></i>修改密码</a></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">用户中心</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="/user/profile" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-circle me-2"></i>个人中心
+                        </a>
+                        <a href="/user/orders" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-shopping-bag me-2"></i>我的订单
+                        </a>
+                        <a href="/user/favorites" class="list-group-item list-group-item-action">
+                            <i class="fas fa-heart me-2"></i>我的收藏
+                        </a>
+                        <a href="/user/address" class="list-group-item list-group-item-action">
+                            <i class="fas fa-map-marker-alt me-2"></i>收货地址
+                        </a>
+                        <a href="/change-password" class="list-group-item list-group-item-action">
+                            <i class="fas fa-key me-2"></i>修改密码
+                        </a>
+                        <a href="/logout" class="list-group-item list-group-item-action text-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i>退出登录
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">我的订单</h5>
+                        <div>
+                            <select class="form-select form-select-sm d-inline-block w-auto">
+                                <option>全部订单</option>
+                                <option>待付款</option>
+                                <option>待发货</option>
+                                <option>待收货</option>
+                                <option>已完成</option>
+                                <option>已取消</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- 订单列表 -->
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <span class="fw-bold">订单号: ORD20250115001</span>
+                                    <span class="badge bg-warning ms-2">待付款</span>
+                                </div>
+                                <div class="text-muted">2025-01-15 14:30</div>
+                            </div>
+                            
+                            <div class="d-flex mb-3">
+                                <img src="https://via.placeholder.com/80x80/4e73df/ffffff?text=商品" class="me-3" alt="商品图片" style="width: 80px; height: 80px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">专业跑步鞋</h6>
+                                    <p class="text-muted small mb-1">颜色: 黑色 | 尺码: 42</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span>¥299.00 × 1</span>
+                                        <span class="fw-bold">¥299.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                <div>
+                                    <span class="text-muted">共1件商品</span>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">合计: </span>
+                                    <span class="fw-bold text-primary">¥299.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-3">
+                                <button class="btn btn-outline-primary btn-sm me-2">订单详情</button>
+                                <button class="btn btn-primary btn-sm me-2">立即付款</button>
+                                <button class="btn btn-outline-secondary btn-sm">取消订单</button>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <span class="fw-bold">订单号: ORD20250110002</span>
+                                    <span class="badge bg-info ms-2">待发货</span>
+                                </div>
+                                <div class="text-muted">2025-01-10 09:15</div>
+                            </div>
+                            
+                            <div class="d-flex mb-3">
+                                <img src="https://via.placeholder.com/80x80/1cc88a/ffffff?text=商品" class="me-3" alt="商品图片" style="width: 80px; height: 80px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">速干运动T恤</h6>
+                                    <p class="text-muted small mb-1">颜色: 白色 | 尺码: L</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span>¥129.00 × 2</span>
+                                        <span class="fw-bold">¥258.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                <div>
+                                    <span class="text-muted">共2件商品</span>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">合计: </span>
+                                    <span class="fw-bold text-primary">¥258.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-3">
+                                <button class="btn btn-outline-primary btn-sm me-2">订单详情</button>
+                                <button class="btn btn-outline-secondary btn-sm">提醒发货</button>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <span class="fw-bold">订单号: ORD20250105003</span>
+                                    <span class="badge bg-success ms-2">已完成</span>
+                                </div>
+                                <div class="text-muted">2025-01-05 16:45</div>
+                            </div>
+                            
+                            <div class="d-flex mb-3">
+                                <img src="https://via.placeholder.com/80x80/36b9cc/ffffff?text=商品" class="me-3" alt="商品图片" style="width: 80px; height: 80px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">专业瑜伽垫</h6>
+                                    <p class="text-muted small mb-1">颜色: 蓝色</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span>¥89.00 × 1</span>
+                                        <span class="fw-bold">¥89.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                <div>
+                                    <span class="text-muted">共1件商品</span>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">合计: </span>
+                                    <span class="fw-bold text-primary">¥89.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-3">
+                                <button class="btn btn-outline-primary btn-sm me-2">订单详情</button>
+                                <button class="btn btn-outline-secondary btn-sm">再次购买</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 分页 -->
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5>运动装备商城</h5>
+                    <p class="text-muted">为您的运动生活提供最专业的装备支持</p>
+                </div>
+                
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5>联系方式</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fas fa-phone me-2"></i>400-123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i>support@sportmall.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>北京市朝阳区运动大厦123号</li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4">
+                    <h5>关注我们</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light"><i class="fab fa-weixin fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-weibo fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="text-center text-muted">
+                <p>&copy; 2025 运动装备商城. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

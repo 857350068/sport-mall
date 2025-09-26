@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .coupon-card {
+            border: 1px dashed #667eea;
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-running me-2"></i>运动装备商城
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">商品中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories">分类浏览</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cart">
+                            <i class="fas fa-shopping-cart me-1"></i>购物车
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>用户中心
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/user/profile">个人信息</a></li>
+                            <li><a class="dropdown-item" href="/user/orders">我的订单</a></li>
+                            <li><a class="dropdown-item" href="/user/coupons">我的优惠券</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 购物车内容 -->
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">首页</a></li>
+                <li class="breadcrumb-item active" aria-current="page">购物车</li>
+            </ol>
+        </nav>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <h4 class="mb-4">我的购物车</h4>
+                
+                <!-- 购物车商品列表 -->
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-1">
+                            <input type="checkbox" class="form-check-input" checked>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="/images/product-placeholder.jpg" class="img-fluid product-image" alt="商品图片">
+                        </div>
+                        <div class="col-md-4">
+                            <h6>专业跑鞋 - 透气缓震跑步鞋</h6>
+                            <p class="text-muted small">颜色: 黑色 | 尺码: 42</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary">-</button>
+                                <input type="number" class="form-control form-control-sm text-center" value="1" style="width: 60px;">
+                                <button class="btn btn-sm btn-outline-secondary">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="price">¥299</div>
+                            <div class="original-price">¥399</div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-1">
+                            <input type="checkbox" class="form-check-input" checked>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="/images/product-placeholder.jpg" class="img-fluid product-image" alt="商品图片">
+                        </div>
+                        <div class="col-md-4">
+                            <h6>运动T恤 - 吸汗透气运动上衣</h6>
+                            <p class="text-muted small">颜色: 白色 | 尺码: L</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary">-</button>
+                                <input type="number" class="form-control form-control-sm text-center" value="2" style="width: 60px;">
+                                <button class="btn btn-sm btn-outline-secondary">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="price">¥89</div>
+                            <div class="original-price">¥129</div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-1">
+                            <input type="checkbox" class="form-check-input">
+                        </div>
+                        <div class="col-md-3">
+                            <img src="/images/product-placeholder.jpg" class="img-fluid product-image" alt="商品图片">
+                        </div>
+                        <div class="col-md-4">
+                            <h6>健身哑铃 - 可调节重量哑铃</h6>
+                            <p class="text-muted small">重量: 5kg</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary">-</button>
+                                <input type="number" class="form-control form-control-sm text-center" value="1" style="width: 60px;">
+                                <button class="btn btn-sm btn-outline-secondary">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="price">¥159</div>
+                            <div class="original-price">¥199</div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div>
+                        <input type="checkbox" class="form-check-input" id="selectAll">
+                        <label class="form-check-label ms-2" for="selectAll">全选</label>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary">清空购物车</button>
+                        <button class="btn btn-outline-primary">继续购物</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <!-- 订单汇总 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">订单汇总</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>商品金额:</span>
+                            <span>¥537</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>运费:</span>
+                            <span class="text-success">免运费</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>优惠券:</span>
+                            <span>-¥50</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>总计:</span>
+                            <span class="total-price">¥487</span>
+                        </div>
+                        
+                        <!-- 优惠券 -->
+                        <div class="mb-3">
+                            <label class="form-label">优惠券</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="输入优惠券代码">
+                                <button class="btn btn-outline-secondary">应用</button>
+                            </div>
+                        </div>
+                        
+                        <div class="coupon-card p-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>新用户专享券</strong>
+                                    <div class="small text-muted">满300减50</div>
+                                </div>
+                                <button class="btn btn-sm btn-primary">立即使用</button>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-danger btn-lg w-100" onclick="checkout()">
+                            <i class="fas fa-shopping-bag me-2"></i>去结算
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>运动装备商城</h5>
+                    <p>专业运动装备，助您挑战极限，超越自我</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>&copy; 2024 运动装备商城. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 全选功能
+        $('#selectAll').change(function() {
+            $('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+        });
+        
+        // 去结算
+        function checkout() {
+            window.location.href = '/checkout';
+        }
+    </script>
+</body>
+</html>

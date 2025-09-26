@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin}">
+                                <i class="fas fa-home me-2"></i>仪表板
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/categories}">
+                                <i class="fas fa-tags me-2"></i>商品分类
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/brands}">
+                                <i class="fas fa-copyright me-2"></i>品牌管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/admin/products}">
+                                <i class="fas fa-box me-2"></i>商品管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/orders}">
+                                <i class="fas fa-shopping-cart me-2"></i>订单管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/coupons}">
+                                <i class="fas fa-ticket-alt me-2"></i>优惠券
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/promotions}">
+                                <i class="fas fa-bullhorn me-2"></i>促销活动
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/users}">
+                                <i class="fas fa-users me-2"></i>用户管理
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- 主内容区 -->
+            <main class="col-md-10 ms-sm-auto px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">商品详情</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a th:href="@{/admin/products/edit/{id}(id=${product.id})}" class="btn btn-primary me-2">
+                            <i class="fas fa-edit me-1"></i>编辑商品
+                        </a>
+                        <a th:href="@{/admin/products}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>返回列表
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 成功/错误消息 -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span th:text="${success}">操作成功</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span th:text="${error}">操作失败</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <!-- 商品基本信息 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">基本信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center mb-3">
+                                    <img th:if="${product.mainImage}" 
+                                         th:src="${product.mainImage}" 
+                                         alt="商品主图" class="img-fluid rounded" 
+                                         style="max-height: 300px;">
+                                    <div th:unless="${product.mainImage}" 
+                                         class="bg-light d-flex align-items-center justify-content-center"
+                                         style="height: 300px;">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td class="fw-bold">商品名称:</td>
+                                        <td th:text="${product.name}">运动鞋</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">商品标题:</td>
+                                        <td th:text="${product.title ?: '-'}">舒适透气运动鞋</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">商品价格:</td>
+                                        <td>
+                                            <span class="fw-bold text-primary">¥</span>
+                                            <span class="fw-bold text-primary" th:text="${#numbers.formatDecimal(product.price, 1, 2)}">99.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${product.originalPrice}">
+                                        <td class="fw-bold">原价:</td>
+                                        <td>
+                                            <span class="text-muted text-decoration-line-through">¥</span>
+                                            <span class="text-muted text-decoration-line-through" th:text="${#numbers.formatDecimal(product.originalPrice, 1, 2)}">199.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${product.hasDiscount()}">
+                                        <td class="fw-bold">折扣:</td>
+                                        <td>
+                                            <span class="badge bg-danger" th:text="${#numbers.formatPercent(product.discountRate, 1, 2)}">50%</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">库存数量:</td>
+                                        <td th:text="${product.stock}">100</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">销量:</td>
+                                        <td th:text="${product.sales}">50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">商品分类:</td>
+                                        <td>
+                                            <span th:if="${product.category}" th:text="${product.category.name}">运动鞋</span>
+                                            <span th:unless="${product.category}" class="text-muted">未分类</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">品牌:</td>
+                                        <td>
+                                            <span th:if="${product.brand}" th:text="${product.brand.name}">Nike</span>
+                                            <span th:unless="${product.brand}" class="text-muted">无品牌</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">状态:</td>
+                                        <td>
+                                            <span th:switch="${product.status}" class="badge"
+                                                  th:classappend="${product.status == 'ACTIVE' ? 'bg-success' : 
+                                                                  product.status == 'INACTIVE' ? 'bg-secondary' : 
+                                                                  product.status == 'DRAFT' ? 'bg-warning' : 'bg-danger'}">
+                                                <span th:case="ACTIVE">上架</span>
+                                                <span th:case="INACTIVE">下架</span>
+                                                <span th:case="DRAFT">草稿</span>
+                                                <span th:case="SOLD_OUT">售罄</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">是否推荐:</td>
+                                        <td>
+                                            <span th:if="${product.isFeatured}" class="badge bg-success">是</span>
+                                            <span th:unless="${product.isFeatured}" class="badge bg-secondary">否</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${product.weight}">
+                                        <td class="fw-bold">商品重量:</td>
+                                        <td th:text="${product.weight + '克'}">500克</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">创建时间:</td>
+                                        <td th:text="${#temporals.format(product.createdAt, 'yyyy-MM-dd HH:mm')}">2023-01-01 12:00</td>
+                                    </tr>
+                                    <tr th:if="${product.updatedAt}">
+                                        <td class="fw-bold">更新时间:</td>
+                                        <td th:text="${#temporals.format(product.updatedAt, 'yyyy-MM-dd HH:mm')}">2023-01-01 12:00</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品描述 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">商品描述</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${product.description}" th:utext="${product.description}">商品详细描述内容</div>
+                        <div th:unless="${product.description}" class="text-muted">暂无描述</div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <div class="btn-group" role="group">
+                                <form th:if="${product.status != 'ACTIVE'}" 
+                                      th:action="@{/admin/products/activate/{id}(id=${product.id})}" 
+                                      method="post">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-check-circle me-1"></i>上架
+                                    </button>
+                                </form>
+                                <form th:if="${product.status == 'ACTIVE'}" 
+                                      th:action="@{/admin/products/deactivate/{id}(id=${product.id})}" 
+                                      method="post">
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fas fa-times-circle me-1"></i>下架
+                                    </button>
+                                </form>
+                                <form th:action="@{/admin/products/delete/{id}(id=${product.id})}" 
+                                      method="post"
+                                      onsubmit="return confirm('确定要删除这个商品吗？')">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash me-1"></i>删除
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: sport-mall
+  
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/sport_mall?useSSL=false&serverTimezone=UTC&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: false
+        use_sql_comments: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    
+  # Thymeleaf配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    
+  # 数据库审计功能
+  data:
+    jpa:
+      repositories:
+        enabled: true
+
+# 服务器配置
+server:
+  port: 8087
+  servlet:
+    context-path: /
+    
+# 日志配置
+logging:
+  level:
+    com.sportmall: INFO
+    org.hibernate.SQL: ERROR
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# 自定义配置
+app:
+  # 订单配置
+  order:
+    auto-cancel-minutes: 60  # 订单自动取消时间（分钟）
+    
+  # 文件上传配置
+  upload:
+    path: upload/  # 上传文件路径
+    image:
+      max-size: 5MB  # 图片最大大小
+      allowed-types: jpg,jpeg,png,gif,webp  # 允许的图片类型
+      
+  # 安全配置
+  security:
+    remember-me-key: sport-mall-remember-me-key
+    session-timeout: 1800  # session超时时间（秒）
+    
+  # 支付配置
+  payment:
+    timeout-minutes: 30  # 支付超时时间（分钟）
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized

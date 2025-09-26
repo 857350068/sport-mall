@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑优惠券 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin}">
+                                <i class="fas fa-home me-2"></i>仪表板
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/categories}">
+                                <i class="fas fa-tags me-2"></i>商品分类
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/brands}">
+                                <i class="fas fa-copyright me-2"></i>品牌管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/products}">
+                                <i class="fas fa-box me-2"></i>商品管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/orders}">
+                                <i class="fas fa-shopping-cart me-2"></i>订单管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/admin/coupons}">
+                                <i class="fas fa-ticket-alt me-2"></i>优惠券
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/promotions}">
+                                <i class="fas fa-bullhorn me-2"></i>促销活动
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/users}">
+                                <i class="fas fa-users me-2"></i>用户管理
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- 主内容区 -->
+            <main class="col-md-10 ms-sm-auto px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" th:text="${coupon.id != null ? '编辑优惠券' : '新增优惠券'}">编辑优惠券</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a th:href="@{/admin/coupons}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>返回列表
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 成功/错误消息 -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span th:text="${success}">操作成功</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span th:text="${error}">操作失败</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <!-- 优惠券表单 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0" th:text="${coupon.id != null ? '编辑优惠券' : '新增优惠券'}">编辑优惠券</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/coupons/save}" method="post" th:object="${coupon}">
+                            <input type="hidden" th:field="*{id}" />
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">优惠券名称 <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="name" th:field="*{name}" 
+                                               required maxlength="100">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">描述</label>
+                                        <input type="text" class="form-control" id="description" th:field="*{description}" 
+                                               maxlength="200">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="type" class="form-label">优惠券类型 <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="type" th:field="*{type}" required>
+                                            <option value="">请选择类型</option>
+                                            <option th:each="typeOption : ${types}" 
+                                                    th:value="${typeOption}" 
+                                                    th:text="${typeOption.description}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="discountValue" class="form-label">折扣值 <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="discountValue" th:field="*{discountValue}" 
+                                               required min="0" step="0.01">
+                                        <div class="form-text" id="discountValueHelp">
+                                            <span th:if="${coupon.type == 'PERCENTAGE'}">输入百分比，如10表示10%</span>
+                                            <span th:if="${coupon.type == 'FIXED_AMOUNT'}">输入固定金额，如10表示10元</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="minAmount" class="form-label">最低消费金额</label>
+                                        <input type="number" class="form-control" id="minAmount" th:field="*{minAmount}" 
+                                               min="0" step="0.01">
+                                        <div class="form-text">0表示无限制</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="maxDiscount" class="form-label">最大折扣金额</label>
+                                        <input type="number" class="form-control" id="maxDiscount" th:field="*{maxDiscount}" 
+                                               min="0" step="0.01">
+                                        <div class="form-text">0表示无限制</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="totalCount" class="form-label">总数量</label>
+                                        <input type="number" class="form-control" id="totalCount" th:field="*{totalCount}" 
+                                               min="0">
+                                        <div class="form-text">0表示无限制</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="perUserLimit" class="form-label">每人限领</label>
+                                        <input type="number" class="form-control" id="perUserLimit" th:field="*{perUserLimit}" 
+                                               min="0">
+                                        <div class="form-text">0表示无限制</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="validFromStr" class="form-label">开始时间 <span class="text-danger">*</span></label>
+                                        <input type="datetime-local" class="form-control" id="validFromStr" 
+                                               th:value="${coupon.validFrom != null ? #temporals.format(coupon.validFrom, 'yyyy-MM-dd HH:mm') : ''}"
+                                               required>
+                                        <input type="hidden" id="validFromStrHidden" name="validFromStr">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="validToStr" class="form-label">结束时间 <span class="text-danger">*</span></label>
+                                        <input type="datetime-local" class="form-control" id="validToStr" 
+                                               th:value="${coupon.validTo != null ? #temporals.format(coupon.validTo, 'yyyy-MM-dd HH:mm') : ''}"
+                                               required>
+                                        <input type="hidden" id="validToStrHidden" name="validToStr">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i>保存
+                                </button>
+                                <a th:href="@{/admin/coupons}" class="btn btn-secondary ms-2">
+                                    <i class="fas fa-times me-1"></i>取消
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // 表单提交前处理日期时间
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // 获取日期时间输入值
+            const validFromStr = document.getElementById('validFromStr').value;
+            const validToStr = document.getElementById('validToStr').value;
+            
+            // 设置隐藏字段值
+            document.getElementById('validFromStrHidden').value = validFromStr;
+            document.getElementById('validToStrHidden').value = validToStr;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付成功 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="/js/message.js"></script>
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 5rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="success-container">
+        <div class="card">
+            <div class="card-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="text-success mb-3">支付成功</h2>
+                <p class="lead">您的订单已成功支付，感谢您的购买！</p>
+                <div class="order-info bg-light p-3 rounded mb-4">
+                    <p class="mb-1"><strong>订单号:</strong> 202401150001</p>
+                    <p class="mb-1"><strong>支付金额:</strong> <span class="text-danger">¥427.00</span></p>
+                    <p class="mb-0"><strong>支付时间:</strong> 2024-01-15 14:30:25</p>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/user/orders" class="btn btn-primary btn-lg">
+                        <i class="fas fa-list me-2"></i>查看订单详情
+                    </a>
+                    <a href="/" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-2"></i>返回首页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // 页面加载完成后显示消息
+        document.addEventListener('DOMContentLoaded', function() {
+            MessageUtil.showSuccess('支付成功！订单已确认');
+            
+            // 5秒后自动跳转到订单详情页
+            setTimeout(function() {
+                window.location.href = '/user/orders';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

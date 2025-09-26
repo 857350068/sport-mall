@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收银台 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="/js/message.js"></script>
+    <style>
+        .payment-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .order-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .payment-method:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .payment-method.active {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: white;
+        }
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .password-input {
+            letter-spacing: 5px;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-running me-2"></i>运动装备商城
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">商品中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories">分类浏览</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            <i class="fas fa-shopping-cart me-1"></i>购物车
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>用户中心
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/user/profile">个人信息</a></li>
+                            <li><a class="dropdown-item" href="/user/orders">我的订单</a></li>
+                            <li><a class="dropdown-item" href="/user/coupons">我的优惠券</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 支付页面 -->
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">首页</a></li>
+                <li class="breadcrumb-item"><a href="/cart">购物车</a></li>
+                <li class="breadcrumb-item"><a href="/checkout">订单确认</a></li>
+                <li class="breadcrumb-item active" aria-current="page">收银台</li>
+            </ol>
+        </nav>
+        
+        <!-- 支付头部 -->
+        <div class="payment-header text-center">
+            <h2>收银台</h2>
+            <p class="mb-0">订单号: 202401150001</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- 订单信息 -->
+                <div class="order-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">订单信息</h5>
+                        <div class="countdown">
+                            <i class="fas fa-clock me-2"></i>支付剩余时间: <span id="countdown">14:59</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>收货人:</strong> 张三</p>
+                            <p class="mb-1"><strong>联系电话:</strong> 138****8888</p>
+                            <p class="mb-0"><strong>收货地址:</strong> 北京市朝阳区某某街道某某小区1号楼101室</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p class="mb-1"><strong>商品数量:</strong> 2件</p>
+                            <p class="mb-0"><strong>应付金额:</strong> <span class="text-danger fs-4">¥427</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 支付方式 -->
+                <h5 class="mb-4">选择支付方式</h5>
+                
+                <!-- 支付宝支付 -->
+                <div class="payment-method active" onclick="selectPaymentMethod('alipay')">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fab fa-alipay fa-2x text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">支付宝</h6>
+                                <i class="fas fa-check-circle text-primary"></i>
+                            </div>
+                            <p class="text-muted mb-0 small">支持花呗、余额、银行卡等多种方式</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 微信支付 -->
+                <div class="payment-method" onclick="selectPaymentMethod('wechat')">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fab fa-weixin fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">微信支付</h6>
+                            </div>
+                            <p class="text-muted mb-0 small">支持微信零钱、银行卡等多种方式</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 银行卡支付 -->
+                <div class="payment-method" onclick="selectPaymentMethod('bank')">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-credit-card fa-2x text-info"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">银行卡支付</h6>
+                            </div>
+                            <p class="text-muted mb-0 small">支持储蓄卡、信用卡</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 支付按钮 -->
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary btn-lg" onclick="pay()">
+                        <i class="fas fa-credit-card me-2"></i>立即支付 ¥427
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <!-- 支付二维码 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">扫码支付</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="qr-code mb-3">
+                            <img src="/images/qrcode-placeholder.png" class="img-fluid" alt="二维码">
+                        </div>
+                        <p class="text-muted small">请使用支付宝扫码支付</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-sync-alt me-2"></i>刷新二维码
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 安全提示 -->
+                <div class="alert alert-info mt-4">
+                    <h6><i class="fas fa-shield-alt me-2"></i>安全提醒</h6>
+                    <ul class="mb-0 small">
+                        <li>请确认支付金额和收款方信息</li>
+                        <li>不要泄露支付密码和验证码</li>
+                        <li>如遇问题请联系客服</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>运动装备商城</h5>
+                    <p>专业运动装备，助您挑战极限，超越自我</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>&copy; 2024 运动装备商城. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 页面加载完成后添加功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 支付倒计时
+            let countdown = 15 * 60; // 15分钟
+            const countdownElement = document.getElementById('countdown');
+            
+            function updateCountdown() {
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdown > 0) {
+                    countdown--;
+                } else {
+                    MessageUtil.showError('支付超时，订单已取消');
+                    setTimeout(function() {
+                        window.location.href = '/user/orders';
+                    }, 2000);
+                }
+            }
+            
+            setInterval(updateCountdown, 1000);
+            
+            // 选择支付方式
+            function selectPaymentMethod(method) {
+                document.querySelectorAll('.payment-method').forEach(el => {
+                    el.classList.remove('active');
+                });
+                event.currentTarget.classList.add('active');
+                MessageUtil.showSuccess('支付方式已选择: ' + getPaymentMethodName(method));
+            }
+            
+            // 获取支付方式名称
+            function getPaymentMethodName(method) {
+                switch(method) {
+                    case 'alipay': return '支付宝';
+                    case 'wechat': return '微信支付';
+                    case 'bank': return '银行卡支付';
+                    default: return '未知支付方式';
+                }
+            }
+            
+            // 支付按钮事件
+            const payButtons = document.querySelectorAll('.btn-primary.btn-lg, .btn-outline-primary');
+            payButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('btn-lg')) {
+                        // 立即支付按钮
+                        processPayment();
+                    } else {
+                        // 刷新二维码按钮
+                        refreshQRCode();
+                    }
+                });
+            });
+            
+            // 处理支付
+            function processPayment() {
+                MessageUtil.showSuccess('正在处理支付...');
+                
+                // 模拟支付过程
+                setTimeout(function() {
+                    if (Math.random() > 0.2) { // 80%成功率
+                        MessageUtil.showSuccess('支付成功！订单已完成');
+                        setTimeout(function() {
+                            window.location.href = '/payment/success?orderId=202401150001';
+                        }, 1500);
+                    } else {
+                        MessageUtil.showError('支付失败，请重试');
+                    }
+                }, 2000);
+            }
+            
+            // 刷新二维码
+            function refreshQRCode() {
+                MessageUtil.showSuccess('二维码已刷新');
+                // 实际项目中这里会重新生成二维码
+            }
+        });
+    </script>
+</body>
+</html>

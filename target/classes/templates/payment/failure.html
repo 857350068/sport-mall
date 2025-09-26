@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付失败 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="/js/message.js"></script>
+    <style>
+        .failure-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .failure-icon {
+            font-size: 5rem;
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="failure-container">
+        <div class="card">
+            <div class="card-body">
+                <div class="failure-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <h2 class="text-danger mb-3">支付失败</h2>
+                <p class="lead">抱歉，您的支付未能成功完成。</p>
+                <div class="alert alert-warning">
+                    <p class="mb-0"><strong>可能的原因:</strong></p>
+                    <ul class="text-start">
+                        <li>银行卡余额不足</li>
+                        <li>网络连接不稳定</li>
+                        <li>支付密码输入错误</li>
+                        <li>银行系统维护</li>
+                    </ul>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/payment" class="btn btn-primary btn-lg">
+                        <i class="fas fa-redo me-2"></i>重新支付
+                    </a>
+                    <a href="/user/orders" class="btn btn-outline-primary">
+                        <i class="fas fa-list me-2"></i>查看订单详情
+                    </a>
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="fas fa-home me-2"></i>返回首页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // 页面加载完成后显示消息
+        document.addEventListener('DOMContentLoaded', function() {
+            MessageUtil.showError('支付失败，请检查支付信息后重试');
+        });
+    </script>
+</body>
+</html>

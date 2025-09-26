@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品管理 - 运动装备商城</title>
+    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin}">
+                                <i class="fas fa-home me-2"></i>仪表板
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/categories}">
+                                <i class="fas fa-tags me-2"></i>商品分类
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/brands}">
+                                <i class="fas fa-copyright me-2"></i>品牌管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/admin/products}">
+                                <i class="fas fa-box me-2"></i>商品管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/orders}">
+                                <i class="fas fa-shopping-cart me-2"></i>订单管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/coupons}">
+                                <i class="fas fa-ticket-alt me-2"></i>优惠券
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/promotions}">
+                                <i class="fas fa-bullhorn me-2"></i>促销活动
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/users}">
+                                <i class="fas fa-users me-2"></i>用户管理
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- 主内容区 -->
+            <main class="col-md-10 ms-sm-auto px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">商品管理</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a th:href="@{/admin/products/create}" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>新增商品
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 成功/错误消息 -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span th:text="${success}">操作成功</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span th:text="${error}">操作失败</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <!-- 搜索和筛选表单 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">搜索筛选</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/products}" method="get" class="row g-3">
+                            <div class="col-md-3">
+                                <label for="keyword" class="form-label">商品名称</label>
+                                <input type="text" class="form-control" id="keyword" name="keyword" 
+                                       th:value="${keyword}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="categoryId" class="form-label">商品分类</label>
+                                <select class="form-select" id="categoryId" name="categoryId">
+                                    <option value="">全部分类</option>
+                                    <option th:each="category : ${categories}" 
+                                            th:value="${category.id}" 
+                                            th:text="${category.name}"
+                                            th:selected="${categoryId != null and categoryId == category.id}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="brandId" class="form-label">品牌</label>
+                                <select class="form-select" id="brandId" name="brandId">
+                                    <option value="">全部品牌</option>
+                                    <option th:each="brand : ${brands}" 
+                                            th:value="${brand.id}" 
+                                            th:text="${brand.name}"
+                                            th:selected="${brandId != null and brandId == brand.id}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="status" class="form-label">状态</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="">全部状态</option>
+                                    <option th:each="statusOption : ${statuses}" 
+                                            th:value="${statusOption}" 
+                                            th:text="${statusOption.description}"
+                                            th:selected="${status != null and status == statusOption}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search me-1"></i>搜索
+                                </button>
+                                <a th:href="@{/admin/products}" class="btn btn-secondary">重置</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">商品列表</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAll">
+                                        </th>
+                                        <th>商品图片</th>
+                                        <th>商品名称</th>
+                                        <th>价格</th>
+                                        <th>库存</th>
+                                        <th>分类</th>
+                                        <th>品牌</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="product : ${products}">
+                                        <td>
+                                            <input type="checkbox" name="productIds" th:value="${product.id}">
+                                        </td>
+                                        <td>
+                                            <img th:if="${product.mainImage}" 
+                                                 th:src="${product.mainImage}" 
+                                                 alt="商品图片" class="img-thumbnail" 
+                                                 style="width: 50px; height: 50px; object-fit: cover;">
+                                            <div th:unless="${product.mainImage}" 
+                                                 class="bg-light d-flex align-items-center justify-content-center"
+                                                 style="width: 50px; height: 50px;">
+                                                <i class="fas fa-image text-muted"></i>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${product.name}">运动鞋</div>
+                                            <small class="text-muted" th:text="${product.title}">舒适透气运动鞋</small>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold text-primary">¥</span>
+                                            <span class="fw-bold text-primary" th:text="${#numbers.formatDecimal(product.price, 1, 2)}">99.00</span>
+                                        </td>
+                                        <td th:text="${product.stock}">100</td>
+                                        <td>
+                                            <span th:if="${product.category}" th:text="${product.category.name}">运动鞋</span>
+                                            <span th:unless="${product.category}" class="text-muted">未分类</span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${product.brand}" th:text="${product.brand.name}">Nike</span>
+                                            <span th:unless="${product.brand}" class="text-muted">无品牌</span>
+                                        </td>
+                                        <td>
+                                            <span th:switch="${product.status}" class="badge"
+                                                  th:classappend="${product.status == 'ACTIVE' ? 'bg-success' : 
+                                                                  product.status == 'INACTIVE' ? 'bg-secondary' : 
+                                                                  product.status == 'DRAFT' ? 'bg-warning' : 'bg-danger'}">
+                                                <span th:case="ACTIVE">上架</span>
+                                                <span th:case="INACTIVE">下架</span>
+                                                <span th:case="DRAFT">草稿</span>
+                                                <span th:case="SOLD_OUT">售罄</span>
+                                            </span>
+                                        </td>
+                                        <td th:text="${#temporals.format(product.createdAt, 'yyyy-MM-dd HH:mm')}">2023-01-01 12:00</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a th:href="@{/admin/products/{id}(id=${product.id})}" 
+                                                   class="btn btn-outline-info">
+                                                    <i class="fas fa-eye"></i> 查看
+                                                </a>
+                                                <a th:href="@{/admin/products/edit/{id}(id=${product.id})}" 
+                                                   class="btn btn-outline-primary">
+                                                    <i class="fas fa-edit"></i> 编辑
+                                                </a>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" 
+                                                            data-bs-toggle="dropdown">
+                                                        操作
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li th:if="${product.status != 'ACTIVE'}">
+                                                            <form th:action="@{/admin/products/activate/{id}(id=${product.id})}" 
+                                                                  method="post">
+                                                                <button type="submit" class="dropdown-item">
+                                                                    <i class="fas fa-check-circle text-success me-1"></i>上架
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                        <li th:if="${product.status == 'ACTIVE'}">
+                                                            <form th:action="@{/admin/products/deactivate/{id}(id=${product.id})}" 
+                                                                  method="post">
+                                                                <button type="submit" class="dropdown-item">
+                                                                    <i class="fas fa-times-circle text-warning me-1"></i>下架
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <form th:action="@{/admin/products/delete/{id}(id=${product.id})}" 
+                                                                  method="post"
+                                                                  onsubmit="return confirm('确定要删除这个商品吗？')">
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    <i class="fas fa-trash me-1"></i>删除
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 批量操作 -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <button type="button" class="btn btn-outline-success btn-sm" id="batchActivate">
+                                    <i class="fas fa-check-circle me-1"></i>批量上架
+                                </button>
+                                <button type="button" class="btn btn-outline-warning btn-sm ms-2" id="batchDeactivate">
+                                    <i class="fas fa-times-circle me-1"></i>批量下架
+                                </button>
+                            </div>
+                            
+                            <!-- 分页 -->
+                            <nav th:if="${totalPages > 1}">
+                                <ul class="pagination mb-0">
+                                    <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                                        <a class="page-link" 
+                                           th:href="@{/admin/products(page=${currentPage - 1}, size=10, 
+                                                                      keyword=${keyword}, categoryId=${categoryId}, 
+                                                                      brandId=${brandId}, status=${status})}">
+                                            上一页
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                        th:classappend="${i == currentPage ? 'active' : ''}">
+                                        <a class="page-link" 
+                                           th:href="@{/admin/products(page=${i}, size=10, 
+                                                                      keyword=${keyword}, categoryId=${categoryId}, 
+                                                                      brandId=${brandId}, status=${status})}"
+                                           th:text="${i + 1}">1</a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                        <a class="page-link" 
+                                           th:href="@{/admin/products(page=${currentPage + 1}, size=10, 
+                                                                      keyword=${keyword}, categoryId=${categoryId}, 
+                                                                      brandId=${brandId}, status=${status})}">
+                                            下一页
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // 全选/取消全选
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('input[name="productIds"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // 批量上架
+        document.getElementById('batchActivate').addEventListener('click', function() {
+            const selectedIds = Array.from(document.querySelectorAll('input[name="productIds"]:checked'))
+                                    .map(checkbox => checkbox.value);
+            
+            if (selectedIds.length === 0) {
+                alert('请至少选择一个商品');
+                return;
+            }
+
+            if (confirm('确定要上架选中的商品吗？')) {
+                // 创建表单并提交
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/products/batch/activate';
+                
+                // 添加CSRF令牌（如果需要）
+                const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                if (csrfToken) {
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+                }
+                
+                // 添加选中的ID
+                selectedIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'ids';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+
+        // 批量下架
+        document.getElementById('batchDeactivate').addEventListener('click', function() {
+            const selectedIds = Array.from(document.querySelectorAll('input[name="productIds"]:checked'))
+                                    .map(checkbox => checkbox.value);
+            
+            if (selectedIds.length === 0) {
+                alert('请至少选择一个商品');
+                return;
+            }
+
+            if (confirm('确定要下架选中的商品吗？')) {
+                // 创建表单并提交
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/products/batch/deactivate';
+                
+                // 添加CSRF令牌（如果需要）
+                const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                if (csrfToken) {
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+                }
+                
+                // 添加选中的ID
+                selectedIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'ids';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>
