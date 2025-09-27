@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>优惠券详情 - 运动装备商城</title>
-    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid">
@@ -16,7 +16,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin}">
-                                <i class="fas fa-home me-2"></i>仪表板
+                                <i class="fas fa-home me-2"></i>仪表盘
                             </a>
                         </li>
                         <li class="nav-item">
@@ -151,17 +151,17 @@
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">总数量:</td>
-                                        <td th:text="${coupon.totalCount > 0 ? coupon.totalCount : '无限制'}">100</td>
+                                        <td th:text="${coupon.totalCount > 0 ? coupon.totalCount : '无限量'}">100</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">每人限领:</td>
-                                        <td th:text="${coupon.perUserLimit > 0 ? coupon.perUserLimit : '无限制'}">1</td>
+                                        <td th:text="${coupon.perUserLimit > 0 ? coupon.perUserLimit : '无限量'}">1</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">已领取/使用:</td>
                                         <td>
                                             <span th:text="${coupon.usedCount ?: 0}">0</span>/
-                                            <span th:text="${coupon.totalCount > 0 ? coupon.totalCount : '无限制'}">100</span>
+                                            <span th:text="${coupon.totalCount > 0 ? coupon.totalCount : '无限量'}">100</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -210,6 +210,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

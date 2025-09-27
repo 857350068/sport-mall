@@ -166,6 +166,14 @@ public class ProductService {
     }
 
     /**
+     * 获取所有商品（分页）
+     */
+    @Transactional(readOnly = true)
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    /**
      * 获取所有上架商品
      */
     @Transactional(readOnly = true)

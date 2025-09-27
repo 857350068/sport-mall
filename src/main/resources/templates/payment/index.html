@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>收银台 - 运动装备商城</title>
-    <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="/js/message.js"></script>
     <style>
         .payment-header {
@@ -245,7 +245,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // 页面加载完成后添加功能
@@ -271,7 +271,6 @@
             
             setInterval(updateCountdown, 1000);
             
-            // 选择支付方式
             function selectPaymentMethod(method) {
                 document.querySelectorAll('.payment-method').forEach(el => {
                     el.classList.remove('active');
@@ -310,7 +309,7 @@
                 
                 // 模拟支付过程
                 setTimeout(function() {
-                    if (Math.random() > 0.2) { // 80%成功率
+                    if (Math.random() > 0.2) { // 80%成功概率
                         MessageUtil.showSuccess('支付成功！订单已完成');
                         setTimeout(function() {
                             window.location.href = '/payment/success?orderId=202401150001';

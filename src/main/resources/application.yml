@@ -38,7 +38,7 @@ spring:
 
 # 服务器配置
 server:
-  port: 8090
+  port: 8080
   servlet:
     context-path: /
     

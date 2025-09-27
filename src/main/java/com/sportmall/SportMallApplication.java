@@ -19,8 +19,8 @@ public class SportMallApplication {
         System.out.println("\n" +
                 "===================================\n" +
                 "🏃‍♂️ 运动装备商城启动成功！\n" +
-                "📱 访问地址: http://localhost:8087\n" +
-                "🔧 健康检查: http://localhost:8087/api/test/health\n" +
+                "📱 访问地址: http://localhost:8080\n" +
+                "🔧 健康检查: http://localhost:8080/api/test/health\n" +
                 "===================================\n");
     }
 }

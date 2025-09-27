@@ -1,7 +1,6 @@
 package com.sportmall.config;
 
 import com.sportmall.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
         http.authorizeHttpRequests(authz -> authz
                 // 静态资源和公共页面
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**", "/favicon.ico").permitAll()
                 .requestMatchers("/", "/index").permitAll()
                 
                 // 认证相关页面
@@ -57,7 +56,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/login-success", false)
+                .defaultSuccessUrl("/login-success", true)
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -75,6 +74,14 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
+            )
+            .headers(headers -> headers
+                // 添加X-Content-Type-Options响应头
+                .contentTypeOptions(config -> config.disable())
+                // 添加其他安全头
+                .frameOptions(frame -> frame.sameOrigin())
+                // 禁用缓存控制
+                .cacheControl(cache -> cache.disable())
             );
             
         return http.build();

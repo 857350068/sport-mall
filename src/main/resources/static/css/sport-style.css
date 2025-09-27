@@ -1,0 +1,84 @@
+/* 
+ * 运动商城样式文件
+ * 包含兼容性修复和性能优化
+ */
+
+/* 文本大小调整兼容性修复 */
+.text-size-adjust-fix {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 文本对齐兼容性修复 */
+.text-align-fix {
+  text-align: -webkit-match-parent;
+  text-align: match-parent;
+}
+
+/* 打印样式兼容性修复 */
+@media print {
+  .color-adjust-fix {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+/* 文本对齐顺序修复 */
+.text-align-inherit-fix {
+  text-align: -webkit-match-parent;
+  text-align: inherit;
+}
+
+/* 通用样式 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 表格样式修复 */
+.table th, .table td {
+  text-align: -webkit-match-parent;
+  text-align: match-parent;
+  text-align: inherit;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* 卡片样式 */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* 导航栏样式 */
+.navbar {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* 表单样式 */
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 响应式工具类 */
+@media (max-width: 575.98px) {
+  .text-center-xs {
+    text-align: center;
+  }
+}
+
+/* 缓存破坏示例 - 实际项目中应使用构建工具自动生成 */
+.version-1-0-0 {
+  /* 版本控制类 */
+}

@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>运动装备商城 - 首页</title>
     <link href="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+    <link th:href="@{/css/sport-style.css}" rel="stylesheet">
     <style>
         .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
             padding: 4rem 0;
             margin-bottom: 2rem;
@@ -130,7 +131,7 @@
                     <div class="mb-3">
                         <i class="fas fa-undo fa-2x text-info"></i>
                     </div>
-                    <h5>无忧退换</h5>
+                    <h5>无忧购物</h5>
                     <p class="text-muted">7天无理由退换，购物更安心</p>
                 </div>
             </div>
@@ -158,14 +159,15 @@
             <!-- 商品卡片示例 -->
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card product-card">
-                    <img src="https://via.placeholder.com/300x200/4e73df/ffffff?text=运动鞋" class="card-img-top" alt="运动鞋">
+                    <img src="https://placehold.co/300x200/4e73df/ffffff?text=运动装备" class="card-img-top" alt="运动装备">
                     <div class="card-body">
                         <h5 class="card-title">专业跑步鞋</h5>
                         <p class="card-text text-muted small">轻便透气，专业缓震技术</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-primary">¥299.00</span>
-                            <button class="btn btn-sm btn-outline-primary">
+                            <button class="btn btn-sm btn-outline-primary" title="加入购物车">
                                 <i class="fas fa-shopping-cart"></i>
+                                <span class="visually-hidden">加入购物车</span>
                             </button>
                         </div>
                     </div>
@@ -174,14 +176,15 @@
             
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card product-card">
-                    <img src="https://via.placeholder.com/300x200/1cc88a/ffffff?text=运动服" class="card-img-top" alt="运动服">
+                    <img src="https://placehold.co/300x200/1cc88a/ffffff?text=运动装备" class="card-img-top" alt="运动装备">
                     <div class="card-body">
                         <h5 class="card-title">速干运动T恤</h5>
                         <p class="card-text text-muted small">吸湿排汗，舒适透气</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-primary">¥129.00</span>
-                            <button class="btn btn-sm btn-outline-primary">
+                            <button class="btn btn-sm btn-outline-primary" title="加入购物车">
                                 <i class="fas fa-shopping-cart"></i>
+                                <span class="visually-hidden">加入购物车</span>
                             </button>
                         </div>
                     </div>
@@ -190,14 +193,15 @@
             
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card product-card">
-                    <img src="https://via.placeholder.com/300x200/36b9cc/ffffff?text=瑜伽垫" class="card-img-top" alt="瑜伽垫">
+                    <img src="https://placehold.co/300x200/36b9cc/ffffff?text=瑜伽装备" class="card-img-top" alt="瑜伽装备">
                     <div class="card-body">
-                        <h5 class="card-title">专业瑜伽垫</h5>
+                        <h5 class="card-title">专业瑜伽裤</h5>
                         <p class="card-text text-muted small">防滑耐磨，环保材质</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-primary">¥89.00</span>
-                            <button class="btn btn-sm btn-outline-primary">
+                            <button class="btn btn-sm btn-outline-primary" title="加入购物车">
                                 <i class="fas fa-shopping-cart"></i>
+                                <span class="visually-hidden">加入购物车</span>
                             </button>
                         </div>
                     </div>
@@ -206,14 +210,15 @@
             
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card product-card">
-                    <img src="https://via.placeholder.com/300x200/f6c23e/ffffff?text=健身器材" class="card-img-top" alt="健身器材">
+                    <img src="https://placehold.co/300x200/f6c23e/ffffff?text=健身器材" class="card-img-top" alt="健身器材">
                     <div class="card-body">
                         <h5 class="card-title">哑铃套装</h5>
                         <p class="card-text text-muted small">可调节重量，适合家庭健身</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-primary">¥399.00</span>
-                            <button class="btn btn-sm btn-outline-primary">
+                            <button class="btn btn-sm btn-outline-primary" title="加入购物车">
                                 <i class="fas fa-shopping-cart"></i>
+                                <span class="visually-hidden">加入购物车</span>
                             </button>
                         </div>
                     </div>
@@ -303,23 +308,26 @@
                 
                 <div class="col-md-4">
                     <h5>关注我们</h5>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-light"><i class="fab fa-weixin fa-2x"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-weibo fa-2x"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-facebook fa-2x"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-instagram fa-2x"></i></a>
-                    </div>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a href="#" class="text-light" title="微信"><i class="fab fa-weixin fa-2x"></i><span class="visually-hidden">微信</span></a></li>
+                        <li><a href="#" class="text-light" title="微博"><i class="fab fa-weibo fa-2x"></i><span class="visually-hidden">微博</span></a></li>
+                        <li><a href="#" class="text-light" title="Facebook"><i class="fab fa-facebook fa-2x"></i><span class="visually-hidden">Facebook</span></a></li>
+                        <li><a href="#" class="text-light" title="Instagram"><i class="fab fa-instagram fa-2x"></i><span class="visually-hidden">Instagram</span></a></li>
+                    </ul>
                 </div>
             </div>
             
             <hr class="my-4">
             
             <div class="text-center text-muted">
-                <p>&copy; 2025 运动装备商城. 保留所有权利.</p>
+                <p>&copy; 2025 运动装备商城. 保留所有权</p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+<script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net.cn/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

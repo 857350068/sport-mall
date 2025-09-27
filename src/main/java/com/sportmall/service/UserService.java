@@ -162,6 +162,15 @@ public class UserService implements UserDetailsService {
     }
 
     /**
+     * 根据用户名获取用户（直接返回User对象）
+     */
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("用户不存在: " + username));
+    }
+
+    /**
      * 根据邮箱获取用户
      */
     @Transactional(readOnly = true)
@@ -190,6 +199,14 @@ public class UserService implements UserDetailsService {
         user.setEmail(email);
 
         return userRepository.save(user);
+    }
+
+    /**
+     * 获取所有用户（分页）
+     */
+    @Transactional(readOnly = true)
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     /**

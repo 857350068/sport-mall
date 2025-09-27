@@ -203,78 +203,112 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>商品金额:</span>
-                            <span>¥537</span>
+                            <span>商品总价:</span>
+                            <span>¥716</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>优惠减免:</span>
+                            <span class="text-success">-¥50</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>运费:</span>
-                            <span class="text-success">免运费</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>优惠券:</span>
-                            <span>-¥50</span>
+                            <span class="text-success">免费</span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
-                            <span>总计:</span>
-                            <span class="total-price">¥487</span>
+                            <span class="fw-bold">应付总额:</span>
+                            <span class="total-price">¥666</span>
                         </div>
                         
                         <!-- 优惠券 -->
-                        <div class="mb-3">
-                            <label class="form-label">优惠券</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="输入优惠券代码">
-                                <button class="btn btn-outline-secondary">应用</button>
-                            </div>
-                        </div>
-                        
                         <div class="coupon-card p-3 mb-3">
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <strong>新用户专享券</strong>
-                                    <div class="small text-muted">满300减50</div>
+                                    <div class="fw-bold">满减优惠券</div>
+                                    <div class="small text-muted">满500减50</div>
                                 </div>
-                                <button class="btn btn-sm btn-primary">立即使用</button>
+                                <button class="btn btn-sm btn-outline-primary">使用</button>
                             </div>
                         </div>
                         
-                        <button class="btn btn-danger btn-lg w-100" onclick="checkout()">
-                            <i class="fas fa-shopping-bag me-2"></i>去结算
+                        <button class="btn btn-primary w-100 btn-lg">
+                            <i class="fas fa-credit-card me-2"></i>去结算
                         </button>
+                    </div>
+                </div>
+                
+                <!-- 推荐商品 -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">推荐商品</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <img src="/images/product-placeholder.jpg" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;" alt="商品图片">
+                            <div class="ms-2">
+                                <div class="small fw-bold">运动水壶 - 大容量便携水杯</div>
+                                <div class="small text-danger">¥59</div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex">
+                            <img src="/images/product-placeholder.jpg" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;" alt="商品图片">
+                            <div class="ms-2">
+                                <div class="small fw-bold">运动毛巾 - 速干吸汗毛巾</div>
+                                <div class="small text-danger">¥29</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>运动装备商城</h5>
-                    <p>专业运动装备，助您挑战极限，超越自我</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p>&copy; 2024 运动装备商城. 保留所有权利.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script src="https://cdn.jsdelivr.net.cn/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // 全选功能
-        $('#selectAll').change(function() {
-            $('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+        // 购物车功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 全选功能
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const itemCheckboxes = document.querySelectorAll('.cart-item .form-check-input:not(#selectAll)');
+            
+            selectAllCheckbox.addEventListener('change', function() {
+                itemCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+            
+            // 单个商品选择
+            itemCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+                    selectAllCheckbox.checked = allChecked;
+                });
+            });
+            
+            // 数量加减功能
+            document.querySelectorAll('.btn-outline-secondary').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentNode.querySelector('input[type="number"]');
+                    let value = parseInt(input.value);
+                    
+                    if (this.textContent === '+') {
+                        value++;
+                    } else if (this.textContent === '-' && value > 1) {
+                        value--;
+                    }
+                    
+                    input.value = value;
+                    updateTotal();
+                });
+            });
+            
+            // 更新总价
+            function updateTotal() {
+                // 这里应该根据实际商品价格计算总价
+                console.log('总价已更新');
+            }
         });
-        
-        // 去结算
-        function checkout() {
-            window.location.href = '/checkout';
-        }
     </script>
 </body>
 </html>

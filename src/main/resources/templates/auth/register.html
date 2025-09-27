@@ -198,7 +198,7 @@
                 document.body.appendChild(alertDiv);
                 
                 // 3秒后自动消失
-                setTimeout(() => {
+                setTimeout(function() {
                     if (alertDiv.parentNode) {
                         alertDiv.parentNode.removeChild(alertDiv);
                     }

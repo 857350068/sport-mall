@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <!-- 商品项 -->
+                            <!-- 商品 -->
                             <div class="d-flex align-items-center border-bottom pb-3 mb-3" data-cart-item-id="1">
                                 <div class="form-check me-3">
                                     <input class="form-check-input" type="checkbox" checked>
@@ -323,7 +323,7 @@
             
             // 从购物车中移除商品
             function removeFromCart(cartItemId, element) {
-                MessageUtil.showConfirm('确定要从购物车中移除此商品吗？', function() {
+                MessageUtil.showConfirm('确定要从购物车中移除此商品吗?', function() {
                     fetch('/cart/remove', {
                         method: 'POST',
                         headers: {
@@ -351,7 +351,7 @@
             // 更新购物车商品数量显示
             function updateCartItemCount() {
                 let itemCount = document.querySelectorAll('.d-flex.align-items-center.border-bottom').length;
-                // 检查是否还有最后一个元素
+                // 查查是否还有最后一个元素
                 const lastElement = document.querySelector('.d-flex.align-items-center:not(.border-bottom)');
                 if (lastElement) {
                     itemCount += 1;
@@ -367,17 +367,17 @@
                 }
             }
             
-            // 更新购物车总金额
+            // 更新购物车总价
             function updateCartTotal() {
-                // 这里可以调用后端接口获取最新的总金额
-                // 简化处理，实际项目中应该从后端获取
+                // 这里可以调用后端接口获取最新的总价
+                // 化处理，实际项目中应该从后端获取
             }
             
             // 去结算按钮事件
             const checkoutButton = document.querySelector('.btn-primary.w-100');
             if (checkoutButton) {
                 checkoutButton.addEventListener('click', function() {
-                    // 检查是否有选中的商品
+                    // 查查是否有选中的商品
                     const selectedItems = document.querySelectorAll('input[type="checkbox"]:checked');
                     if (selectedItems.length === 0) {
                         MessageUtil.showError('请至少选择一个商品');
